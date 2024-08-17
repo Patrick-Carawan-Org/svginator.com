@@ -7,4 +7,12 @@
 <body>
 	Welcome to SVGinator! Simply enter the text of your svg file in the box below and SVGinator will generate a URL that you can use to grab a file version of your SVG whenever you need it!
 </body>
+<footer style="display: flex;">
+	<p>&copy;&nbsp;</p>
+	<p id="copyright_year"></p>
+	<p>&nbsp;Patrick Carawan</p>
+</footer>
+<script>
+	document.getElementById("copyright_year").innerHTML=`${new Date().getFullYear()}`
+</script>
 </html>
