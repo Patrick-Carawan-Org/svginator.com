@@ -3,15 +3,27 @@
 <head>
 	<meta charset="UTF-8">
 	<title>SVGinator</title>
+	<style>
+		footer {
+			display: flex;
+		}
+		textarea {
+			width: 100%;
+			height: 30%
+		}
+	</style>
 </head>
 <body>
-	Welcome to SVGinator! Simply enter the text of your svg file in the box below and SVGinator will generate a URL that you can use to grab a file version of your SVG whenever you need it!
+	<div>
+		Welcome to SVGinator! Simply enter the text of your svg file in the box below and SVGinator will generate a URL that you can use to grab a file version of your SVG whenever you need it!
+	</div>
+	<textarea id="svg_input" name="SVG Input"></textarea>
+	<footer>
+		<p>&copy;&nbsp;</p>
+		<p id="copyright_year"></p>
+		<p>&nbsp;Patrick Carawan</p>
+	</footer>
 </body>
-<footer style="display: flex;">
-	<p>&copy;&nbsp;</p>
-	<p id="copyright_year"></p>
-	<p>&nbsp;Patrick Carawan</p>
-</footer>
 <script>
 	document.getElementById("copyright_year").innerHTML=`${new Date().getFullYear()}`
 </script>
