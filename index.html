@@ -1,30 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>SVGinator</title>
-	<style>
-		footer {
-			display: flex;
-		}
-		textarea {
-			width: 100%;
-			height: 30%
-		}
-	</style>
-</head>
-<body>
-	<div>
-		Welcome to SVGinator! Simply enter the text of your svg file in the box below and SVGinator will generate a URL that you can use to grab a file version of your SVG whenever you need it!
-	</div>
-	<textarea id="svg_input" name="SVG Input"></textarea>
-	<footer>
-		<p>&copy;&nbsp;</p>
-		<p id="copyright_year"></p>
-		<p>&nbsp;Patrick Carawan</p>
-	</footer>
-</body>
-<script>
-	document.getElementById("copyright_year").innerHTML=`${new Date().getFullYear()}`
-</script>
+	<head>
+		<meta charset="UTF-8">
+		<title>SVGinator</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.0.4/pako.min.js"></script>
+		<style>
+			footer {
+				display: flex;
+			}
+			textarea {
+				width: 100%;
+				height: 30%
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			Welcome to SVGinator! Simply enter the text of your svg file in the box below and SVGinator will generate a URL that you can use to grab a file version of your SVG whenever you need it!
+		</div>
+		<textarea id="svg_input" name="SVG Input"></textarea>
+		<button id="get_url_button">Get URL</button>
+		<div id="output"></div>
+		<footer>
+			<p>&copy;&nbsp;</p>
+			<p id="copyright_year"></p>
+			<p>&nbsp;Patrick Carawan</p>
+		</footer>
+	</body>
+	<script>
+		document.getElementById("copyright_year").innerHTML=`${new Date().getFullYear()}`
+		document.getElementById("get_url_button").addEventListener('click', (ev) => {
+			const svgText = document.getElementById("svg_input").value;
+			console.log({svgText})
+			const compressedData = pako.gzip(svgText);
+			const deflatedData = pako.deflate(svgText)
+			const deflatedRaw = pako.deflateRaw(svgText)
+			console.log({compressedData}, {deflatedData}, {deflatedRaw})
+			// Convert the compressed Uint8Array data to Base64 for easy output
+			//const base64Compressed = uint8ArrayToBase64(compressedData);
+			//const decoder = new TextDecoder('utf8');
+			//const decoded = decoder.decode(deflatedRaw)
+			let binaryString = '';
+  			deflatedRaw.forEach((byte) => {
+   	 			binaryString += String.fromCharCode(byte);
+  			});
+			const b64 = btoa(binaryString)
+				.replace(/\+/g, '-') // Replace + with -
+   	 			.replace(/\//g, '_') // Replace / with _
+    			.replace(/=+$/, '');
+			console.log({binaryString, b64})
+			console.log("length", b64.length)
+			//console.log({decoded})
+			//const b64encoded = btoa(decoded)
+			//console.log({b64encoded})
+			// Display the Base64-encoded compressed output
+			document.getElementById('output').textContent = b64;
+
+		})
+	</script>
 </html>
