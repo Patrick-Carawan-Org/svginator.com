@@ -31,15 +31,7 @@
 		document.getElementById("copyright_year").innerHTML=`${new Date().getFullYear()}`
 		document.getElementById("get_url_button").addEventListener('click', (ev) => {
 			const svgText = document.getElementById("svg_input").value;
-			console.log({svgText})
-			const compressedData = pako.gzip(svgText);
-			const deflatedData = pako.deflate(svgText)
 			const deflatedRaw = pako.deflateRaw(svgText)
-			console.log({compressedData}, {deflatedData}, {deflatedRaw})
-			// Convert the compressed Uint8Array data to Base64 for easy output
-			//const base64Compressed = uint8ArrayToBase64(compressedData);
-			//const decoder = new TextDecoder('utf8');
-			//const decoded = decoder.decode(deflatedRaw)
 			let binaryString = '';
   			deflatedRaw.forEach((byte) => {
    	 			binaryString += String.fromCharCode(byte);
@@ -48,14 +40,7 @@
 				.replace(/\+/g, '-') // Replace + with -
    	 			.replace(/\//g, '_') // Replace / with _
     			.replace(/=+$/, '');
-			console.log({binaryString, b64})
-			console.log("length", b64.length)
-			//console.log({decoded})
-			//const b64encoded = btoa(decoded)
-			//console.log({b64encoded})
-			// Display the Base64-encoded compressed output
 			document.getElementById('output').textContent = b64;
-
 		})
 	</script>
 </html>
